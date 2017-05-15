@@ -9,7 +9,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE, fig.width = 9, fig.height = 3.5)
 ```
 
-R package **bpmn** is an interface to the [bpmn-js](https://github.com/bpmn-io/bpmn-js) JavaScript library (a BPMN 2.0 rendering toolkit and web modeler) from [bpmn.io](https://bpmn.io/) - a "Web-based tooling for BPMN, DMN and CMMN diagrams".
+R package [bpmn](https://github.com/bergant/bpmn) is an interface to the [bpmn-js](https://github.com/bpmn-io/bpmn-js) JavaScript library (a BPMN 2.0 rendering toolkit and web modeler) from [bpmn.io](https://bpmn.io/) - a "Web-based tooling for BPMN, DMN and CMMN diagrams".
  
 Using JavaScript in R is handled by [htmlwidgets](https://github.com/ramnathv/htmlwidgets) package. 
 
@@ -36,9 +36,8 @@ bpmn_file <- system.file("examples/qr-code.bpmn", package = "bpmn")
 bpmn(bpmn_file)
 ```
 
-You can create new diagrams on bpmn.io [demo site](http://demo.bpmn.io/).
 
-## Add overlays
+## Overlays
 
 We can add additional notes (or any html element) aside any element of the 
 diagram.
@@ -76,6 +75,17 @@ htmlTable::htmlTable(align = "lll",
 )
 ```
 
+## More
+
+There are a lot of bpmn-js features (e.g. designing a new diagram) which are not 
+yet supported by this widget. Expore these on bpmn.io [demo site](http://demo.bpmn.io/).
+
+
+## Project
+
+GitHub: https://github.com/bergant/bpmn
+
+Issues: https://github.com/bergant/bpmn/issues
 
 
 ## Licenses
