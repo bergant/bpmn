@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" id="_1275486058980" targetNamespace="http://www.trisotech.com/definitions/_1275486058980" exporter="Camunda Modeler" exporterVersion="1.8.0">
+  <semantic:process id="_6" isExecutable="false">
+    <semantic:startEvent id="StartProcess" name="">
+      <semantic:outgoing>_6-468</semantic:outgoing>
+    </semantic:startEvent>
+    <semantic:task id="TaskQuotationHandling" name="Quotation Handling">
+      <semantic:incoming>_6-468</semantic:incoming>
+      <semantic:outgoing>_6-470</semantic:outgoing>
+    </semantic:task>
+    <semantic:exclusiveGateway id="GatewayOrderApprovedDecision" name="" gatewayDirection="Diverging">
+      <semantic:incoming>_6-500</semantic:incoming>
+      <semantic:outgoing>_6-502</semantic:outgoing>
+      <semantic:outgoing>_6-552</semantic:outgoing>
+    </semantic:exclusiveGateway>
+    <semantic:task id="_6-190" name="Order  Handling">
+      <semantic:incoming>_6-504</semantic:incoming>
+      <semantic:outgoing>_6-508</semantic:outgoing>
+    </semantic:task>
+    <semantic:task id="_6-241" name="Shipping Handling">
+      <semantic:incoming>_6-506</semantic:incoming>
+      <semantic:outgoing>_6-532</semantic:outgoing>
+    </semantic:task>
+    <semantic:userTask id="TaskReviewOrder" name="Review Order" implementation="##unspecified">
+      <semantic:incoming>_6-534</semantic:incoming>
+      <semantic:outgoing>_6-536</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:endEvent id="EndProcess" name="">
+      <semantic:incoming>_6-536</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:parallelGateway id="ParaSplitOrderAndShipment" name="" gatewayDirection="Diverging">
+      <semantic:incoming>_6-502</semantic:incoming>
+      <semantic:outgoing>_6-504</semantic:outgoing>
+      <semantic:outgoing>_6-506</semantic:outgoing>
+    </semantic:parallelGateway>
+    <semantic:parallelGateway id="ParaJoinOderAndShipment" name="" gatewayDirection="Converging">
+      <semantic:incoming>_6-508</semantic:incoming>
+      <semantic:incoming>_6-532</semantic:incoming>
+      <semantic:outgoing>_6-534</semantic:outgoing>
+    </semantic:parallelGateway>
+    <semantic:endEvent id="TerminateProcess" name="">
+      <semantic:incoming>_6-552</semantic:incoming>
+      <semantic:terminateEventDefinition />
+    </semantic:endEvent>
+    <semantic:callActivity id="SubProcessApproveOrder" name="Approve Order" calledElement="_0">
+      <semantic:incoming>_6-470</semantic:incoming>
+      <semantic:outgoing>_6-500</semantic:outgoing>
+    </semantic:callActivity>
+    <semantic:sequenceFlow id="_6-468" name="" sourceRef="StartProcess" targetRef="TaskQuotationHandling" />
+    <semantic:sequenceFlow id="_6-470" name="" sourceRef="TaskQuotationHandling" targetRef="SubProcessApproveOrder" />
+    <semantic:sequenceFlow id="_6-500" name="" sourceRef="SubProcessApproveOrder" targetRef="GatewayOrderApprovedDecision" />
+    <semantic:sequenceFlow id="_6-502" name="Approved" sourceRef="GatewayOrderApprovedDecision" targetRef="ParaSplitOrderAndShipment" />
+    <semantic:sequenceFlow id="_6-504" name="" sourceRef="ParaSplitOrderAndShipment" targetRef="_6-190" />
+    <semantic:sequenceFlow id="_6-506" name="" sourceRef="ParaSplitOrderAndShipment" targetRef="_6-241" />
+    <semantic:sequenceFlow id="_6-508" name="" sourceRef="_6-190" targetRef="ParaJoinOderAndShipment" />
+    <semantic:sequenceFlow id="_6-532" name="" sourceRef="_6-241" targetRef="ParaJoinOderAndShipment" />
+    <semantic:sequenceFlow id="_6-534" name="" sourceRef="ParaJoinOderAndShipment" targetRef="TaskReviewOrder" />
+    <semantic:sequenceFlow id="_6-536" name="" sourceRef="TaskReviewOrder" targetRef="EndProcess" />
+    <semantic:sequenceFlow id="_6-552" name="" sourceRef="GatewayOrderApprovedDecision" targetRef="TerminateProcess" />
+  </semantic:process>
+  <semantic:process id="_0" isExecutable="false">
+    <semantic:userTask id="TaskApproveCustomer" name="Approve Customer" implementation="##unspecified">
+      <semantic:incoming>_0-131</semantic:incoming>
+      <semantic:outgoing>_0-133</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:userTask id="TaskApproveProduct" name="Approve Product" implementation="##unspecified">
+      <semantic:incoming>_0-133</semantic:incoming>
+      <semantic:outgoing>_0-135</semantic:outgoing>
+    </semantic:userTask>
+    <semantic:startEvent id="SubProcessStart" name="">
+      <semantic:outgoing>_0-131</semantic:outgoing>
+    </semantic:startEvent>
+    <semantic:endEvent id="SubProcessEnd" name="">
+      <semantic:incoming>_0-135</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:sequenceFlow id="_0-131" name="" sourceRef="SubProcessStart" targetRef="TaskApproveCustomer" />
+    <semantic:sequenceFlow id="_0-133" name="" sourceRef="TaskApproveCustomer" targetRef="TaskApproveProduct" />
+    <semantic:sequenceFlow id="_0-135" name="" sourceRef="TaskApproveProduct" targetRef="SubProcessEnd" />
+  </semantic:process>
+  <bpmndi:BPMNDiagram id="Trisotech.Visio-_6" name="Order Process" documentation="" resolution="96.00000267028808">
+    <bpmndi:BPMNPlane bpmnElement="_6">
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_StartProcess" bpmnElement="StartProcess">
+        <dc:Bounds x="48" y="117" width="30" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_TaskQuotationHandling" bpmnElement="TaskQuotationHandling">
+        <dc:Bounds x="103" y="98" width="83" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_GatewayOrderApprovedDecision" bpmnElement="GatewayOrderApprovedDecision" isMarkerVisible="true">
+        <dc:Bounds x="347" y="111" width="42" height="42" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6__6-190" bpmnElement="_6-190">
+        <dc:Bounds x="506" y="36" width="83" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6__6-241" bpmnElement="_6-241">
+        <dc:Bounds x="506" y="166" width="83" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_TaskReviewOrder" bpmnElement="TaskReviewOrder">
+        <dc:Bounds x="674" y="98" width="83" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_EndProcess" bpmnElement="EndProcess">
+        <dc:Bounds x="788" y="116" width="32" height="32" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_ParaSplitOrderAndShipment" bpmnElement="ParaSplitOrderAndShipment">
+        <dc:Bounds x="455" y="111" width="42" height="42" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_ParaJoinOderAndShipment" bpmnElement="ParaJoinOderAndShipment">
+        <dc:Bounds x="596" y="111" width="42" height="42" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_TerminateProcess" bpmnElement="TerminateProcess">
+        <dc:Bounds x="352" y="44" width="32" height="32" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__6_SubProcessApproveOrder" bpmnElement="SubProcessApproveOrder" isExpanded="false">
+        <dc:Bounds x="222" y="98" width="83" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-500" bpmnElement="_6-500">
+        <di:waypoint xsi:type="dc:Point" x="305" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="347" y="132" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-536" bpmnElement="_6-536">
+        <di:waypoint xsi:type="dc:Point" x="758" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="776" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="788" y="132" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-534" bpmnElement="_6-534">
+        <di:waypoint xsi:type="dc:Point" x="638" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="656" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="674" y="132" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-468" bpmnElement="_6-468">
+        <di:waypoint xsi:type="dc:Point" x="78" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="92" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="103" y="132" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-506" bpmnElement="_6-506">
+        <di:waypoint xsi:type="dc:Point" x="476" y="153" />
+        <di:waypoint xsi:type="dc:Point" x="476" y="200" />
+        <di:waypoint xsi:type="dc:Point" x="506" y="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-502" bpmnElement="_6-502">
+        <di:waypoint xsi:type="dc:Point" x="389" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="455" y="132" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-470" bpmnElement="_6-470">
+        <di:waypoint xsi:type="dc:Point" x="186" y="132" />
+        <di:waypoint xsi:type="dc:Point" x="222" y="132" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-532" bpmnElement="_6-532">
+        <di:waypoint xsi:type="dc:Point" x="590" y="200" />
+        <di:waypoint xsi:type="dc:Point" x="617" y="200" />
+        <di:waypoint xsi:type="dc:Point" x="617" y="153" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-508" bpmnElement="_6-508">
+        <di:waypoint xsi:type="dc:Point" x="590" y="70" />
+        <di:waypoint xsi:type="dc:Point" x="617" y="70" />
+        <di:waypoint xsi:type="dc:Point" x="617" y="111" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-552" bpmnElement="_6-552">
+        <di:waypoint xsi:type="dc:Point" x="368" y="111" />
+        <di:waypoint xsi:type="dc:Point" x="368" y="76" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__6__6-504" bpmnElement="_6-504">
+        <di:waypoint xsi:type="dc:Point" x="476" y="111" />
+        <di:waypoint xsi:type="dc:Point" x="476" y="70" />
+        <di:waypoint xsi:type="dc:Point" x="506" y="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="Trisotech.Visio-_0" name="Approve Order" documentation="" resolution="96.00000267028808">
+    <bpmndi:BPMNPlane bpmnElement="_0">
+      <bpmndi:BPMNShape id="Trisotech.Visio__0_TaskApproveCustomer" bpmnElement="TaskApproveCustomer">
+        <dc:Bounds x="413" y="372" width="83" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__0_TaskApproveProduct" bpmnElement="TaskApproveProduct">
+        <dc:Bounds x="526" y="372" width="83" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__0_SubProcessStart" bpmnElement="SubProcessStart">
+        <dc:Bounds x="357" y="390" width="30" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Trisotech.Visio__0_SubProcessEnd" bpmnElement="SubProcessEnd">
+        <dc:Bounds x="640" y="389" width="32" height="32" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__0__0-135" bpmnElement="_0-135">
+        <di:waypoint xsi:type="dc:Point" x="609" y="406" />
+        <di:waypoint xsi:type="dc:Point" x="627" y="406" />
+        <di:waypoint xsi:type="dc:Point" x="640" y="406" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__0__0-131" bpmnElement="_0-131">
+        <di:waypoint xsi:type="dc:Point" x="388" y="406" />
+        <di:waypoint xsi:type="dc:Point" x="402" y="406" />
+        <di:waypoint xsi:type="dc:Point" x="413" y="406" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Trisotech.Visio__0__0-133" bpmnElement="_0-133">
+        <di:waypoint xsi:type="dc:Point" x="496" y="406" />
+        <di:waypoint xsi:type="dc:Point" x="526" y="406" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</semantic:definitions>

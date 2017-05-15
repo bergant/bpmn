@@ -1,0 +1,30 @@
+Package: bpmn
+Type: Package
+Title: BPMN Diagrams
+Version: 0.1.0
+Authors@R: c(
+      person(
+        "camunda services GmbH"
+        , role = c("aut", "cph")
+        , comment = "bpmn-js library in htmlwidgets/lib, http://bpmn.io"
+      ),
+      person(
+        "Darko", "Bergant"
+        , role = c("aut", "cre")
+        , comment = "R interface"
+        , email = "darko.bergant@gmail.com"
+      )
+    )
+Description: Visualises process diagrams in BPMN 2.0 XML format. 
+    This package is an interface to bpmn-js (http://bpmn.io). 
+    Uses htmlwidgets for wrapping JS libraries. 
+License: MIT + file LICENSE
+Imports:
+    htmlwidgets,
+    xml2
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/bergant/bpmn
+BugReports: https://github.com/bergant/bpmn/issues
+RoxygenNote: 6.0.1
+Suggests: testthat

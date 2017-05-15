@@ -1,0 +1,6 @@
+dependencies:
+- name: "bpmn-js"
+  version: "0.20.6"
+  src: htmlwidgets/lib/bpmn-js/dist/
+  script: bpmn-viewer.min.js
+  stylesheet: assets/diagram-js.css

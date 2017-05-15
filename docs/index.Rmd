@@ -1,0 +1,86 @@
+---
+title: "bpmn - BPMN diagrams in R"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 9, fig.height = 3.5)
+```
+
+R package **bpmn** is an interface to the [bpmn-js](https://github.com/bpmn-io/bpmn-js) JavaScript library (a BPMN 2.0 rendering toolkit and web modeler) from [bpmn.io](https://bpmn.io/) - a "Web-based tooling for BPMN, DMN and CMMN diagrams".
+ 
+Using JavaScript in R is handled by [htmlwidgets](https://github.com/ramnathv/htmlwidgets) package. 
+
+
+## Install 
+Install R package (and required java script libraries) from GitHub:
+
+```{r, eval=FALSE}
+devtools::install_github("bergant/bpmn")
+```
+
+
+## Display a BPMN diagram
+
+```{r}
+library(bpmn)
+```
+
+
+Use `bpmn` widget with a BPMN file:
+
+```{r}
+bpmn_file <- system.file("examples/qr-code.bpmn", package = "bpmn")
+bpmn(bpmn_file)
+```
+
+You can create new diagrams on bpmn.io [demo site](http://demo.bpmn.io/).
+
+## Add overlays
+
+We can add additional notes (or any html element) aside any element of the 
+diagram.
+
+```{r }
+overlays <- list(
+  
+  overlay(
+    element = "SCAN_OK", 
+    html = "<div style='color: red'>Mixed up the labels?</div>"
+  ),
+  overlay(
+    element = "sid-52EB1772-F36E-433E-8F5B-D5DFD26E6F26", 
+    html = "<div style='color: red'>Manually?</div>",
+    top = -40,
+    left = -40
+  )
+)
+
+bpmn(bpmn_file, overlays = overlays)
+```
+
+## Elements in the diagram
+
+Extract elements from BPMN with `bpmn_get_elements`:
+
+```{r}
+
+library(xml2)
+
+htmlTable::htmlTable(align = "lll",
+  bpmn_get_elements(
+    read_xml(bpmn_file)
+  )
+)
+```
+
+
+
+## Licenses
+
+bpmn package: MIT License
+
+See [license file](../inst/htmlwidgets/lib/bpmn-js/LICENSE) for 
+the included **bpmn-js** library
