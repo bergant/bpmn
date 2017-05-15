@@ -1,11 +1,39 @@
+#' bpmn: display BPMN diagrams
+#'
+#' An R interface to bpmn-js library \url{https://bpmn.io/toolkit/bpmn-js/}
+#'
+#'
+#'
+#' @examples
+#' \dontrun{
+#'
+#' bpmn(bpmn_xml)
+#'
+#' }
+#'
+#' @section More examples:
+#'
+#'   See \url{https://bergant.github.io/bpmn} for more usage examples.
+#'
+#' @section Support:
+#'
+#'   Use \url{https://github.com/bergant/bpmn/issues} for bug reports
+#'
+#' @docType package
+#' @name bpmn-package
+NULL
+
+
 #' BPMN diagram
 #'
 #' Display BPMN diagram based on BPMN definition in XML format
 #'
-#' @param  process A file name or xml document or string in BPMN XML format
+#' @param  bpmn_xml A file name or xml document or string in BPMN XML format
 #' @param  overlays A list of elements to be added to the diagram's existing
-#'   elements. Use overlay function to create a proper structure with content
+#'   elements. Use overlay function to create an overlay object with content
 #'   and relative position.
+#' @param  markers A list of markersto highlight existing elements. Use marker
+#'   function to create a marker object with target elements.
 #' @param  width Fixed width for widget (in css units). The default is NULL,
 #'   which results in intelligent automatic sizing based on the widget's
 #'   container.
@@ -15,26 +43,29 @@
 #' @param  elementId element id
 #' @export
 bpmn <- function(
-  process, overlays = NULL,
+  bpmn_xml, overlays = NULL, markers = NULL,
   width = NULL, height = NULL, elementId = NULL) {
 
-  if(inherits(process, "xml_document")) {
-    process <- as.character(process)
+  if(inherits(bpmn_xml, "xml_document")) {
+    bpmn_xml <- as.character(bpmn_xml)
   }
-  else if(inherits(process, "character") &&
-     substring(process, 1, 38) !=
+  else if(inherits(bpmn_xml, "character") &&
+     substring(bpmn_xml, 1, 38) !=
      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>") {
     # this must be a file name
-    xml <- xml2::read_xml(process)
-    process <- as.character(xml)
+    xml <- xml2::read_xml(bpmn_xml)
+    bpmn_xml <- as.character(xml)
   }
 
   # widget parameters
   x <- list(
-    bpmn_model = process
+    bpmn_model = bpmn_xml
   )
   if(length(overlays)) {
     x$overlays <- overlays
+  }
+  if(length(markers)) {
+    x$markers <- markers
   }
 
   # create widget
@@ -94,7 +125,7 @@ not_null_list <- function(...) {
 #' \code{overlays} argument in \code{\link{bpmn}} function. Use this structure
 #' to create correct overlay structure.
 #'
-#' @param element The shape (bpmn element) to which the overlay will be attached
+#' @param element The bpmn element to which the overlay will be attached
 #' @param html HTML element to use as an overlay to use as an overlay
 #' @param type Optional type to assign to the overlay
 #' @param left Where to attach the overlay, relative to element bbox left
@@ -144,6 +175,22 @@ overlay <- function(
     ret$overlay$position <- list(bottom = 0, right = 0)
   }
   class(ret) <- c("bpmn_overlay", "list")
+  ret
+}
+
+#' Marker
+#'
+#' Create a marker object
+#'
+#' @param element The bpmn element to which the overlay will be attached
+#' @param class_name HTML class name to use for highlighting element
+#'
+#' @return A marker object
+#'
+#' @export
+marker <- function(element, class_name = "highlight") {
+  ret <- list(element = element, className = class_name)
+  class(ret) <- c("bpmn_marker", "list")
   ret
 }
 

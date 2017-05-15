@@ -19,9 +19,7 @@ test_that("Add two overlays", {
     )
   )
 
-  bpmn(bpmn_file, overlays = overlays)
-
-  w1 <- bpmn(bpmn_file)
+  w1 <- bpmn(bpmn_file, overlays = overlays)
   expect_is(w1, "htmlwidget")
 
 })

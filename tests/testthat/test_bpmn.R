@@ -1,14 +1,14 @@
 
-context("Show BMPN")
+context("Create simple BPMN widget")
 
-test_that("View from file", {
+test_that("From file", {
 
   bpmn_file <- system.file("examples/qr-code.bpmn", package = "bpmn")
   w1 <- bpmn(bpmn_file)
   expect_is(w1, "htmlwidget")
 })
 
-test_that("View from XML", {
+test_that("From XML", {
 
   bpmn_file <- system.file("examples/qr-code.bpmn", package = "bpmn")
   xml <- xml2::read_xml(bpmn_file)
@@ -16,7 +16,7 @@ test_that("View from XML", {
   expect_is(w1, "htmlwidget")
 })
 
-test_that("View from XML string", {
+test_that("From XML string", {
 
   bpmn_file <- system.file("examples/qr-code.bpmn", package = "bpmn")
   xml <- xml2::read_xml(bpmn_file)

@@ -4,15 +4,18 @@
 \alias{bpmn}
 \title{BPMN diagram}
 \usage{
-bpmn(process, overlays = NULL, width = NULL, height = NULL,
-  elementId = NULL)
+bpmn(bpmn_xml, overlays = NULL, markers = NULL, width = NULL,
+  height = NULL, elementId = NULL)
 }
 \arguments{
-\item{process}{A file name or xml document or string in BPMN XML format}
+\item{bpmn_xml}{A file name or xml document or string in BPMN XML format}
 
 \item{overlays}{A list of elements to be added to the diagram's existing
-elements. Use overlay function to create a proper structure with content
+elements. Use overlay function to create an overlay object with content
 and relative position.}
+
+\item{markers}{A list of markersto highlight existing elements. Use marker
+function to create a marker object with target elements.}
 
 \item{width}{Fixed width for widget (in css units). The default is NULL,
 which results in intelligent automatic sizing based on the widget's

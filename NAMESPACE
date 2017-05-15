@@ -3,5 +3,6 @@
 export(bpmn)
 export(bpmnOutput)
 export(bpmn_get_elements)
+export(marker)
 export(overlay)
 export(renderBpmn)

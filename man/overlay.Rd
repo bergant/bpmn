@@ -8,7 +8,7 @@ overlay(element, html, type = "note", left = NULL, right = NULL,
   top = NULL, bottom = NULL, min_zoom = NULL, max_zoom = NULL)
 }
 \arguments{
-\item{element}{The shape (bpmn element) to which the overlay will be attached}
+\item{element}{The bpmn element to which the overlay will be attached}
 
 \item{html}{HTML element to use as an overlay to use as an overlay}
 

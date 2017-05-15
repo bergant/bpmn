@@ -3,19 +3,32 @@ title: "bpmn - BPMN diagrams in R"
 output: 
   html_document: 
     keep_md: yes
+    self_contained: no
+    theme: spacelab
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width = 9, fig.height = 3.5)
+```{r results="asis", echo=FALSE}
+cat("
+<style>
+  .djs-overlay {
+    color: red; 
+    opacity: 0.8;
+    pointer-events: none; 
+  }
+</style>
+")
 ```
 
-R package [bpmn](https://github.com/bergant/bpmn) is an interface to the [bpmn-js](https://github.com/bpmn-io/bpmn-js) JavaScript library (a BPMN 2.0 rendering toolkit and web modeler) from [bpmn.io](https://bpmn.io/) - a "Web-based tooling for BPMN, DMN and CMMN diagrams".
- 
-Using JavaScript in R is handled by [htmlwidgets](https://github.com/ramnathv/htmlwidgets) package. 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 9, fig.height = 2.5)
+```
+
+## Overview
+bpmn is an R interface to the [bpmn-js](https://github.com/bpmn-io/bpmn-js) library (a BPMN 2.0 rendering toolkit and web modeler) from [bpmn.io](https://bpmn.io/). Using JavaScript in R is handled by [htmlwidgets](http://www.htmlwidgets.org/) framework. 
 
 ## Install 
-Install R package (and required java script libraries) from GitHub:
+Install from GitHub:
 
 ```{r, eval=FALSE}
 devtools::install_github("bergant/bpmn")
@@ -36,10 +49,25 @@ bpmn_file <- system.file("examples/qr-code.bpmn", package = "bpmn")
 bpmn(bpmn_file)
 ```
 
+## Elements in the diagram
+
+With `bpmn_get_elements` function it is possible to get BPMN elements
+with names and I:
+
+```{r}
+
+library(xml2)
+elements <- bpmn_get_elements(read_xml(bpmn_file))
+
+library(htmlTable)
+htmlTable(elements, align = "lll", rnames = FALSE, css.class = "table")
+
+```
+
 
 ## Overlays
 
-We can add additional notes (or any html element) aside any element of the 
+We can add additional notes aside any element of the 
 diagram.
 
 ```{r }
@@ -47,11 +75,11 @@ overlays <- list(
   
   overlay(
     element = "SCAN_OK", 
-    html = "<div style='color: red'>Mixed up the labels?</div>"
+    html = "Mixed up the labels?"
   ),
   overlay(
     element = "sid-52EB1772-F36E-433E-8F5B-D5DFD26E6F26", 
-    html = "<div style='color: red'>Manually?</div>",
+    html = "Manually?",
     top = -40,
     left = -40
   )
@@ -60,25 +88,53 @@ overlays <- list(
 bpmn(bpmn_file, overlays = overlays)
 ```
 
-## Elements in the diagram
 
-Extract elements from BPMN with `bpmn_get_elements`:
+## Markers
+
+To highlight some of the shapes with special style, create markers with selected elements and classes:
+
+<style>
+  .highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
+    fill: lightgreen !important;
+  }
+  .highlight2:not(.djs-connection) .djs-visual > :nth-child(1) {
+    fill: cyan !important;
+  }
+</style>
+
 
 ```{r}
-
-library(xml2)
-
-htmlTable::htmlTable(align = "lll",
-  bpmn_get_elements(
-    read_xml(bpmn_file)
+bpmn(bpmn_file, markers = list(
+  marker(
+    element = "sid-52EB1772-F36E-433E-8F5B-D5DFD26E6F26",
+    class_name = "highlight"
+  ),
+  marker(
+    element = "sid-E49425CF-8287-4798-B622-D2A7D78EF00B",
+    class_name = "highlight2"
   )
-)
+  
+))
 ```
+
+For this effect some styles should be defined inside the HTML:
+
+```
+<style>
+  .highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
+    fill: lightgreen !important;
+  }
+  .highlight2:not(.djs-connection) .djs-visual > :nth-child(1) {
+    fill: cyan !important;
+  }
+</style>
+```
+
 
 ## More
 
 There are a lot of bpmn-js features (e.g. designing a new diagram) which are not 
-yet supported by this widget. Explore these on [bpmn.io demo site](http://demo.bpmn.io/).
+(yet) supported by this widget. Explore these on [bpmn.io demo site](http://demo.bpmn.io/).
 
 
 ## Project

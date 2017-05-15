@@ -8,12 +8,10 @@
 [![Build Status](https://travis-ci.org/bergant/bpmn.svg?branch=master)](https://travis-ci.org/bergant/bpmn)
 
 ## Overview
-bpmn is an R interface to the [bpmn-js](https://github.com/bpmn-io/bpmn-js) JavaScript library (a BPMN 2.0 rendering toolkit and web modeler) from [bpmn.io](https://bpmn.io/) - a "Web-based tooling for BPMN, DMN and CMMN diagrams".
- 
-Using JavaScript in R is handled by [htmlwidgets](https://github.com/ramnathv/htmlwidgets) package. 
+bpmn is an R interface to the [bpmn-js](https://github.com/bpmn-io/bpmn-js) library (a BPMN 2.0 rendering toolkit and web modeler) from [bpmn.io](https://bpmn.io/) - a _Web-based tooling for BPMN, DMN and CMMN diagrams_. Using JavaScript in R is handled by [htmlwidgets](http://www.htmlwidgets.org/) framework. 
 
 ## Install 
-Install R package (and required java script libraries) from GitHub:
+Install from GitHub:
 
 
 ```r
