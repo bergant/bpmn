@@ -78,7 +78,7 @@ htmlTable::htmlTable(align = "lll",
 ## More
 
 There are a lot of bpmn-js features (e.g. designing a new diagram) which are not 
-yet supported by this widget. Expore these on bpmn.io [demo site](http://demo.bpmn.io/).
+yet supported by this widget. Explore these on [bpmn.io demo site](http://demo.bpmn.io/).
 
 
 ## Project
@@ -92,5 +92,4 @@ Issues: https://github.com/bergant/bpmn/issues
 
 bpmn package: MIT License
 
-See [license file](../inst/htmlwidgets/lib/bpmn-js/LICENSE) for 
-the included **bpmn-js** library
+See [license file](https://github.com/bergant/bpmn/blob/master/inst/htmlwidgets/lib/bpmn-js/LICENSE) for the included **bpmn-js** library
